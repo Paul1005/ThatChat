@@ -40,6 +40,12 @@ $.connection.hub.start().done(function () {
         }
     });
 
+    $('#TextBoxChatAdd').keypress(function (e) {
+        if (e.which == 13) {
+            $('#ButtonChatAdd').click();
+        }
+    });
+
     // Sets/resets the users name when the user clicks setname
     // Andrew Busto
     // November 7, 2017
@@ -71,7 +77,7 @@ $.connection.hub.start().done(function () {
     chat.server.populateChats();
     //Adds the new user specified in the displayname textbox
     chat.server.addUser($('#displayname').val());
-    chat.client.broadcastMessage("God", startMessage, 0, true);
+    chat.client.broadcastMessage("GOD", startMessage, 0, true);
 
     //options for our fuzzy search, only threshold should need to be changed
     var options = {
@@ -150,7 +156,7 @@ $.connection.hub.start().done(function () {
 
 function valid(name) {
     var regex = /^[\w\-\s]+$/;
-    return name.length != 0 && regex.exec(name) != null;
+    return name.length > 0 && regex.exec(name) != null && name.length <= 64;
 }
 
 // Set initial focus to name input box

@@ -1,4 +1,5 @@
-﻿function embedFile(regex, content, type)
+﻿var username = "";
+function embedFile(regex, content, type)
 {
     if (regex.exec(content.innerText) != null) {
         var media = document.createElement(type);
@@ -10,6 +11,7 @@
         media.src = content.innerText;
         media.style.maxWidth = '80%';
         media.style.maxHeight = '80%';
+        content.appendChild(document.createElement('br'));
         content.appendChild(media);
         media.controls = true;
     }
@@ -28,16 +30,17 @@ chat.client.broadcastMessage = function (name, message, id, active) {
     var nameDiv     = document.createElement("div");
     var contentDiv  = document.createElement("div");
 
-    //Add names for colouring later
+    //Add names for changing the css class later
     if (names[id] == null)
         names[id] = [];
 
+    Math.seedrandom(id);
+    var r = 255;
+    var g = Math.floor(Math.random() * 234) + 16;
+    var b = Math.floor(Math.random() * 140) + 16
+    nameDiv.style.color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
+
     if (active) {
-        Math.seedrandom(id);
-        var r = 255;
-        var g = Math.floor(Math.random() * 250);
-        var b = Math.floor(Math.random() * 250)
-        nameDiv.style.color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
         nameDiv.className = "active accnt";
     }
     else {
@@ -59,7 +62,6 @@ chat.client.broadcastMessage = function (name, message, id, active) {
 
     //scroll to bottom of chat div
     $("#discussionScrollDiv").scrollTop($("#discussionScrollDiv")[0].scrollHeight);
-
     names[id][names[id].length] = nameDiv;
 };
 
@@ -123,5 +125,9 @@ chat.client.deactivateUser = function (id) {
 
 chat.client.ping = function () {
     chat.server.respond();
-    console.log("ping");
+    //console.log("ping");
 };
+
+//function setName() {
+//    var name = document.getElementById("displayname").val;
+//}
